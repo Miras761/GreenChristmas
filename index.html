@@ -1,285 +1,200 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Green Winter Vibe — GreenGamesStudio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #06150a;
-      --accent: #24d07d;
-      --soft: #0c3b21;
-      --glass: rgba(255,255,255,0.03);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin:0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(180deg, #04140a 0%, #071a0f 100%);
-      color: #eafff2;
-      overflow-x: hidden;
-      -webkit-font-smoothing:antialiased;
-    }
+    :root{--bg:#04140a;--accent:#24d07d;--panel:#072615;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Montserrat,system-ui,Arial;background:linear-gradient(180deg,var(--bg),#071a0f);color:#eafff2}
+    header{padding:20px;text-align:center;background:linear-gradient(180deg,rgba(10,30,20,0.6),rgba(5,12,8,0.35));position:relative}
+    .logo{font-weight:800;color:var(--accent);font-size:28px;padding:8px 14px;border-radius:10px;display:inline-block;animation:neon 3.6s infinite}
+    @keyframes neon{0%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12))}50%{filter:drop-shadow(0 0 18px rgba(36,208,125,0.35))}100%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12))}}
+    #countdown{margin-top:8px;color:var(--accent);font-weight:700}
+    .top-controls{position:absolute;right:16px;top:16px;display:flex;gap:8px}
+    .music-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);padding:8px 12px;border-radius:10px;cursor:pointer}
 
-    /* Header + animated neon logo */
-    header {
-      text-align: center;
-      padding: 26px 16px;
-      background: linear-gradient(180deg, rgba(10,30,20,0.6), rgba(5,12,8,0.4));
-      box-shadow: 0 4px 18px rgba(0,0,0,0.45);
-      position: relative;
-    }
-    .logo {
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--accent);
-      text-transform: uppercase;
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 10px;
-      box-shadow: 0 8px 40px rgba(36,208,125,0.08), 0 0 18px rgba(36,208,125,0.12) inset;
-      background: linear-gradient(90deg, rgba(36,208,125,0.06), rgba(36,208,125,0.02));
-      transform: translateZ(0);
-      animation: neon 3.6s ease-in-out infinite;
-    }
-    @keyframes neon{
-      0%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12)) saturate(1.0);opacity:0.95}
-      50%{filter:drop-shadow(0 0 18px rgba(36,208,125,0.35)) saturate(1.2);opacity:1}
-      100%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12)) saturate(1.0);opacity:0.95}
-    }
-    header p { margin:6px 0 0 0; opacity:.85 }
+    main{max-width:1100px;margin:18px auto;padding:12px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
 
-    /* Music control */
-    .music-control{
-      position:absolute; right:18px; top:18px; display:flex; gap:8px; align-items:center;
-    }
-    .music-btn{
-      background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--accent); padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:700;
-      backdrop-filter: blur(4px);
-    }
+    /* Games column */
+    .games{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .game{background:linear-gradient(180deg,#073b22,#062916);padding:14px;border-radius:12px;border:1px solid rgba(36,208,125,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.5);min-height:160px}
+    .game h3{color:var(--accent);margin:0 0 8px 0}
+    .btn{background:var(--accent);color:#00160a;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    .small{font-size:13px;opacity:.9}
 
-    /* Countdown */
-    #countdown {
-      font-size: 1.2rem;
-      margin: 14px 0 0 0;
-      text-align: center;
-      color: var(--accent);
-      font-weight: 700;
-    }
+    /* Right column (images + chat) */
+    .side{display:flex;flex-direction:column;gap:12px}
+    .card{background:linear-gradient(180deg,#062916,#04210f);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .card img{width:100%;border-radius:8px;display:block}
 
-    /* Snow */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.9;
-      animation: fall linear infinite;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    @keyframes fall {
-      to { transform: translateY(110vh) rotate(360deg); opacity:0; }
-    }
+    /* Canvas slide */
+    #slideCanvas{width:100%;height:auto;border-radius:8px;background:linear-gradient(180deg,#052613,#03210f)}
 
-    /* Mini games section */
-    .games {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      padding: 28px;
-    }
-    .game {
-      background: linear-gradient(180deg, rgba(12,59,33,0.9), rgba(6,28,18,0.9));
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.55);
-      width: 300px;
-      text-align: center;
-      border:1px solid rgba(36,208,125,0.06);
-    }
-    .game h3 { color: var(--accent); margin-bottom: 10px; }
-    .btn {
-      background: var(--accent);
-      color: #01210e;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-    }
+    /* Chat */
+    .chat{display:flex;flex-direction:column;gap:8px}
+    .chat-messages{max-height:240px;overflow:auto;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02)}
+    .chat-msg{padding:8px;border-radius:8px;margin:6px 0}
+    .bot{background:rgba(36,208,125,0.12);color:var(--accent)}
+    .user{background:rgba(255,255,255,0.04);text-align:right}
 
-    footer {
-      text-align: center;
-      padding: 18px;
-      background: rgba(6,24,12,0.6);
-      color: #cfeee1;
-      margin-top: 18px;
-      border-top:1px solid rgba(255,255,255,0.02);
-    }
+    /* Footer texts */
+    footer{margin-top:18px;padding:18px;text-align:center;background:linear-gradient(180deg,rgba(5,20,10,0.6),rgba(2,8,6,0.6));color:#dfffe8}
 
-    /* small screens */
-    @media (max-width:600px){
-      .logo{font-size:22px;padding:6px 10px}
-      .game{width:100%}
-      .music-control{position:static;margin-top:12px}
-    }
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.games{grid-template-columns:1fr}.top-controls{position:static;margin-top:10px;text-align:center}}
   </style>
 </head>
 <body>
   <header>
     <div class="logo">GreenGamesStudio</div>
-    <p>Green Winter Vibe — by Miras</p>
-    <div id="countdown">До зимы: ...</div>
-
-    <div class="music-control">
+    <div id="countdown">До декабря: ...</div>
+    <div class="top-controls">
       <button id="tryPlayBtn" class="music-btn">▶ Включить музыку</button>
       <button id="muteBtn" class="music-btn">🔈 Выкл звук</button>
     </div>
   </header>
 
-  <section class="games">
-    <div class="game">
-      <h3>🎄 Снеговик Кликер</h3>
-      <p>Нажимай, чтобы построить снеговика!</p>
-      <button class="btn" onclick="clickSnowman()">Собрать ❄️</button>
-      <p id="snowmanScore">Снеговиков: 0</p>
-    </div>
+  <main>
+    <div class="grid">
+      <div>
+        <div class="games">
+          <!-- Game 1: Snowman Clicker -->
+          <div class="game" id="g1">
+            <h3>🎄 Снеговик — Кликер</h3>
+            <p class="small">Нажимай и собирай снеговиков. За каждые 10 — мини-бонус!</p>
+            <button class="btn" onclick="clickSnowman()">Собрать ❄️</button>
+            <p id="snowmanScore">Снеговиков: 0</p>
+          </div>
 
-    <div class="game">
-      <h3>🎁 Найди подарок</h3>
-      <p>Кликни на правильную кнопку!</p>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
-        <button class="btn" onclick="gift(1)">🎁</button>
-        <button class="btn" onclick="gift(2)">🎁</button>
-        <button class="btn" onclick="gift(3)">🎁</button>
+          <!-- Game 2: Find Gift -->
+          <div class="game" id="g2">
+            <h3>🎁 Найди подарок</h3>
+            <p class="small">Кликни на верную кнопку и выиграй радость!</p>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+              <button class="btn" onclick="gift(1)">🎁</button>
+              <button class="btn" onclick="gift(2)">🎁</button>
+              <button class="btn" onclick="gift(3)">🎁</button>
+            </div>
+            <p id="giftMsg"></p>
+          </div>
+
+          <!-- Game 3: Reaction -->
+          <div class="game" id="g3">
+            <h3>⚡ Тест реакции</h3>
+            <p class="small">Нажми, когда кнопка станет зелёной.</p>
+            <button id="reactBtn" class="btn" onclick="reactClick()">Жди...</button>
+            <p id="reactRes"></p>
+          </div>
+
+          <!-- Game 4: Memory Pairs -->
+          <div class="game" id="g4">
+            <h3>🧠 Пары памяти</h3>
+            <p class="small">Найди все пары (3 пары).</p>
+            <div id="memBoard" style="display:flex;gap:8px;justify-content:center;margin-top:10px"></div>
+            <p id="memMsg"></p>
+          </div>
+
+          <!-- Game 5: Snow Slide -->
+          <div class="game" id="g5">
+            <h3>⛷️ Снежный спуск</h3>
+            <p class="small">Управляй лыжником стрелками: собирай снежинки.</p>
+            <canvas id="slideCanvas" width="320" height="160"></canvas>
+            <p id="slideScore">Снежинок: 0</p>
+          </div>
+        </div>
       </div>
-      <p id="giftMsg" style="margin-top:12px"></p>
+
+      <aside class="side">
+        <div class="card">
+          <h3 style="margin:0 0 8px 0;color:var(--accent)">Фото снеговика</h3>
+          <img src="https://cdn.pixabay.com/photo/2016/11/29/03/53/snowman-1868045_1280.jpg" alt="Снеговик" />
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px 0;color:var(--accent)">Фото Деда Мороза</h3>
+          <img src="https://cdn.pixabay.com/photo/2014/12/21/23/27/santa-575631_1280.jpg" alt="Дед Мороз" />
+        </div>
+
+        <div class="card chat">
+          <h4 style="margin:0 0 8px 0;color:var(--accent)">Чат-бот поздравлялка</h4>
+          <div class="chat-messages" id="chat"></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <button class="btn" onclick="ask('Поздравь меня!')">Поздравь меня 🎉</button>
+            <button class="btn" onclick="ask('Что пожелаете?')">Что пожелаете? 💚</button>
+            <button class="btn" onclick="ask('Когда праздник?')">Когда праздник? 🎄</button>
+            <button class="btn" onclick="ask('Расскажи историю')">Расскажи историю 📖</button>
+            <button class="btn" onclick="ask('Пожелание на 2026')">Пожелание на 2026 ✨</button>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <div class="game">
-      <h3>❄️ Мини-история</h3>
-      <p>Под окном — мягкий снег, в комнате — зелёный сетап.</p>
-      <p style="opacity:.9">Нажми на кнопку, чтобы добавить тёплое сообщение.</p>
-      <button class="btn" onclick="showMsg()" style="margin-top:8px">Подарить вайб</button>
-      <p id="vibeMsg" style="margin-top:8px;color:var(--accent)"></p>
+    <!-- Bottom texts -->
+    <footer>
+      <p>GreenGamesStudio желает тебе тёплой и зелёной зимы! 💚</p>
+      <p style="opacity:.85">Сделано Miras — используй Last Christmas (Last Christmas.mp3) рядом с этим файлом на GitHub Pages.</p>
+    </footer>
+  </main>
+
+  <!-- modal for Dec 1 -->
+  <div id="decModal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,3,0.7);z-index:2000;visibility:hidden;opacity:0;transition:opacity .3s">
+    <div style="background:linear-gradient(180deg,#06321a,#0b3b1f);padding:22px;border-radius:12px;border:1px solid rgba(36,208,125,0.08);text-align:center;color:#eafff2">
+      <h2 style="color:var(--accent);margin:0 0 8px 0">🎉 С 1 декабря! 🎉</h2>
+      <p>Поздравляем! Пусть год будет тёплым, зелёным и полным крутых игр.</p>
+      <button class="btn" onclick="closeDec()">Спасибо!</button>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <p>© 2025 GreenGamesStudio — сделано Miras</p>
-  </footer>
-
-  <!-- Audio: file name should match your uploaded file on GitHub (case sensitive) -->
+  <!-- audio -->
   <audio id="music" src="Last%20Christmas.mp3" loop preload="auto"></audio>
 
   <script>
-    // Countdown to 1 December
+    // Countdown + Dec 1 modal
     function updateCountdown(){
       const now = new Date();
-      const target = new Date(now.getFullYear(), 11, 1); // December 1
-      if(now > target){ target.setFullYear(target.getFullYear()+1); }
+      const target = new Date(now.getFullYear(),11,1);
+      if(now>target) target.setFullYear(target.getFullYear()+1);
       const diff = target - now;
       const days = Math.floor(diff/1000/60/60/24);
       const hours = Math.floor((diff/1000/60/60)%24);
       const mins = Math.floor((diff/1000/60)%60);
       const secs = Math.floor((diff/1000)%60);
       document.getElementById('countdown').textContent = `До декабря осталось: ${days}д ${hours}ч ${mins}м ${secs}с`;
+      // show modal if today is Dec 1
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const dec1 = new Date(now.getFullYear(),11,1).getTime();
+      if(today === dec1) showDecModal();
     }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateCountdown,1000); updateCountdown();
+    function showDecModal(){ const m=document.getElementById('decModal'); m.style.visibility='visible'; m.style.opacity='1'; }
+    function closeDec(){ const m=document.getElementById('decModal'); m.style.opacity='0'; setTimeout(()=>m.style.visibility='hidden',350); } window.closeDec=closeDec;
 
-    // Snow generator
-    function createSnow(){
-      const snow = document.createElement('div');
-      snow.className = 'snowflake';
-      const size = Math.random()*8+4;
-      snow.style.width = snow.style.height = size+'px';
-      snow.style.left = Math.random()*100+'vw';
-      snow.style.animationDuration = (Math.random()*7+5)+'s';
-      snow.style.opacity = (Math.random()*0.6+0.4).toFixed(2);
-      document.body.appendChild(snow);
-      setTimeout(()=>snow.remove(), 14000);
-    }
-    setInterval(createSnow, 180);
+    // Snow
+    function createSnow(){ const s=document.createElement('div'); s.className='snowflake'; const size=Math.random()*8+4; s.style.width=s.style.height=size+'px'; s.style.left=Math.random()*100+'vw'; s.style.animationDuration=(Math.random()*7+5)+'s'; document.body.appendChild(s); setTimeout(()=>s.remove(),14000);} setInterval(createSnow,180);
 
-    // Games
-    let snowmanScore = 0;
-    function clickSnowman(){
-      snowmanScore++;
-      document.getElementById('snowmanScore').textContent = 'Снеговиков: '+snowmanScore;
-    }
+    // Game 1
+    let snowmanScore=0; function clickSnowman(){ snowmanScore++; document.getElementById('snowmanScore').textContent='Снеговиков: '+snowmanScore; }
 
-    let secret = Math.floor(Math.random()*3)+1;
-    function gift(num){
-      if(num===secret){
-        document.getElementById('giftMsg').textContent = 'Нашёл подарок! 🎉';
-        secret = Math.floor(Math.random()*3)+1;
-      } else {
-        document.getElementById('giftMsg').textContent = 'Не тут... попробуй ещё!';
-      }
-    }
+    // Game 2
+    let secret=Math.floor(Math.random()*3)+1; function gift(n){ if(n===secret){ document.getElementById('giftMsg').textContent='Нашёл подарок! 🎉'; secret=Math.floor(Math.random()*3)+1 } else document.getElementById('giftMsg').textContent='Не тут... попробуй ещё!'; }
 
-    function showMsg(){
-      document.getElementById('vibeMsg').textContent = 'Тёплый зелёный вайб отправлен ✨';
-      setTimeout(()=>document.getElementById('vibeMsg').textContent='',2500);
-    }
+    // Game 3: Reaction
+    let reactStart=0; function scheduleReact(){ const btn=document.getElementById('reactBtn'); btn.style.background='#7bbf9a'; btn.textContent='Жди...'; btn.disabled=true; const wait=Math.random()*2500+1000; setTimeout(()=>{ btn.style.background='var(--accent)'; btn.textContent='Жми!'; btn.disabled=false; reactStart=performance.now(); }, wait);} function reactClick(){ const res=document.getElementById('reactRes'); if(reactStart===0){ res.textContent='Сначала дождись сигнала!'; return;} const dt=Math.round(performance.now()-reactStart); res.textContent='Твоя реакция: '+dt+' ms'; reactStart=0; scheduleReact(); } scheduleReact();
 
-    // Music handling: try autoplay, otherwise show play button
-    const audio = document.getElementById('music');
-    const tryBtn = document.getElementById('tryPlayBtn');
-    const muteBtn = document.getElementById('muteBtn');
+    // Game 4: Memory
+    const memBoard=document.getElementById('memBoard'); const icons=['🎁','❄️','🎄']; let memDeck=[]; let memFirst=null; let memLocked=false; function setupMemory(){ memDeck=icons.concat(icons).sort(()=>Math.random()-0.5); memBoard.innerHTML=''; memDeck.forEach((v,i)=>{ const b=document.createElement('button'); b.className='btn'; b.style.padding='12px'; b.textContent='?'; b.dataset.idx=i; b.addEventListener('click',()=>memFlip(b)); memBoard.appendChild(b); }); document.getElementById('memMsg').textContent='Открой пару!'; } function memFlip(btn){ if(memLocked) return; if(btn===memFirst) return; const i=+btn.dataset.idx; btn.textContent=memDeck[i]; if(!memFirst){ memFirst=btn; return;} if(btn.textContent===memFirst.textContent){ document.getElementById('memMsg').textContent='Пара!'; memFirst.disabled=true; btn.disabled=true; memFirst=null; if([...memBoard.children].every(x=>x.disabled)) document.getElementById('memMsg').textContent='Все пары найдены!'; } else { memLocked=true; setTimeout(()=>{ btn.textContent='?'; memFirst.textContent='?'; memFirst=null; memLocked=false; },700); } } setupMemory();
 
-    // Helper to update mute button text
-    function updateMuteText(){
-      muteBtn.textContent = audio.muted ? '🔈 Выкл звук' : '🔊 Вкл звук';
-    }
+    // Game 5: Slide (canvas)
+    const canvas=document.getElementById('slideCanvas'); const ctx=canvas.getContext('2d'); let skierX=canvas.width/2; let collectibles=[]; let slideScore=0; function spawnCollectible(){ collectibles.push({x:Math.random()*(canvas.width-20)+10,y:-10,r:6}); } function updateSlide(){ ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='rgba(10,40,20,0.6)'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='rgba(36,208,125,0.95)'; ctx.fillRect(skierX-8,canvas.height-24,16,20); ctx.fillStyle='#fff'; collectibles.forEach((c,i)=>{ c.y+=2.2; ctx.beginPath(); ctx.arc(c.x,c.y,c.r,0,Math.PI*2); ctx.fill(); if(c.y>canvas.height-24 && Math.abs(c.x-skierX)<14){ collectibles.splice(i,1); slideScore++; document.getElementById('slideScore').textContent='Снежинок: '+slideScore; } if(c.y>canvas.height+20) collectibles.splice(i,1); }); requestAnimationFrame(updateSlide);} setInterval(spawnCollectible,800); updateSlide(); window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') skierX=Math.max(12,skierX-12); if(e.key==='ArrowRight') skierX=Math.min(canvas.width-12,skierX+12); });
 
-    // Attempt to autoplay (may be blocked)
-    function attemptAutoplay(){
-      // Many browsers block autoplay unless muted or user gesture
-      audio.play().then(()=>{
-        // autoplay allowed
-        tryBtn.style.display='none';
-        audio.muted = false;
-        updateMuteText();
-      }).catch(()=>{
-        // autoplay blocked — show button
-        tryBtn.style.display='inline-block';
-        audio.muted = true; // keep muted until user action to avoid glitches
-        updateMuteText();
-      });
-    }
-    // Call on load
-    attemptAutoplay();
+    // Music handling
+    const audio=document.getElementById('music'); const tryBtn=document.getElementById('tryPlayBtn'); const muteBtn=document.getElementById('muteBtn'); function updateMuteText(){ muteBtn.textContent = audio.muted ? '🔈 Выкл звук' : '🔊 Вкл звук'; } function attemptAutoplay(){ audio.play().then(()=>{ tryBtn.style.display='none'; audio.muted=false; updateMuteText(); }).catch(()=>{ tryBtn.style.display='inline-block'; audio.muted=true; updateMuteText(); }); } attemptAutoplay(); tryBtn.addEventListener('click', ()=>{ audio.muted=false; audio.play().then(()=>{ tryBtn.style.display='none'; updateMuteText(); }).catch(()=>{ alert('Не удалось запустить музыку. Убедись, что файл "Last Christmas.mp3" загружен рядом с index.html.'); }); }); muteBtn.addEventListener('click', ()=>{ audio.muted=!audio.muted; if(audio.paused) audio.play().catch(()=>{}); updateMuteText(); }); audio.addEventListener('error', ()=>{ tryBtn.style.display='inline-block'; console.warn('Music file not found at:', audio.src); });
 
-    // User clicks to enable music (unmute + play)
-    tryBtn.addEventListener('click', ()=>{
-      audio.muted = false;
-      audio.play().then(()=>{
-        tryBtn.style.display='none';
-        updateMuteText();
-      }).catch(err=>{
-        alert('Не удалось запустить музыку автоматически. Убедись, что файл Last Christmas.mp3 загружен рядом с index.html на GitHub.');
-      });
-    });
-
-    // Toggle mute quickly
-    muteBtn.addEventListener('click', ()=>{
-      audio.muted = !audio.muted;
-      // if audio is paused try to play so mute has effect
-      if(audio.paused){ audio.play().catch(()=>{}); }
-      updateMuteText();
-    });
-
-    // If the audio file 404s, catch and inform user
-    audio.addEventListener('error', ()=>{
-      tryBtn.style.display='inline-block';
-      console.warn('Music file not found at:', audio.src);
-    });
+    // Chat bot
+    const chat=document.getElementById('chat'); function addMsg(text,who){ const d=document.createElement('div'); d.className='chat-msg '+(who==='bot'?'bot':'user'); d.textContent=text; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; } function ask(q){ addMsg(q,'user'); let a=''; if(q==='Поздравь меня!') a='🎄 Поздравляем! Пусть год будет тёплым, зелёным и удачным!'; else if(q==='Что пожелаете?') a='✨ Желаем новых игр, энергии и удачи!'; else if(q==='Когда праздник?') a='📅 Скоро — держи обратный отсчёт до 1 декабря.'; else if(q==='Расскажи историю') a='📖 Однажды в зелёной комнате родилась игра, которая согревала игроков.'; else if(q==='Пожелание на 2026') a='🌟 Пусть 2026 принесёт крутые проекты и зелёный вайб!'; setTimeout(()=>addMsg(a,'bot'),600);} addMsg('🤖 Привет! Я поздравлялка GreenGamesStudio. Выбирай вопрос ниже — я отвечу!','bot');
   </script>
 </body>
 </html>
