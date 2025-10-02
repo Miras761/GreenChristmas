@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Green Winter Vibe — GreenGamesStudio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06150a;
+      --accent: #24d07d;
+      --soft: #0c3b21;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: #eafff2;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background: var(--soft);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    header h1 { color: var(--accent); margin:0; }
+    header p { opacity:.8; }
+
+    /* Countdown */
+    #countdown {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      text-align: center;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Snow */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh); opacity:0; }
+    }
+
+    /* Mini games section */
+    .games {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 30px;
+    }
+    .game {
+      background: var(--soft);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      width: 280px;
+      text-align: center;
+    }
+    .game h3 { color: var(--accent); margin-bottom: 10px; }
+    .btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--soft);
+      color: #ccc;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Green Winter Vibe</h1>
+    <p>by GreenGamesStudio</p>
+    <div id="countdown">До зимы: ...</div>
+  </header>
+
+  <section class="games">
+    <div class="game">
+      <h3>🎄 Снеговик Кликер</h3>
+      <p>Нажимай, чтобы построить снеговика!</p>
+      <button class="btn" onclick="clickSnowman()">Собрать ❄️</button>
+      <p id="snowmanScore">Снеговиков: 0</p>
+    </div>
+
+    <div class="game">
+      <h3>🎁 Найди подарок</h3>
+      <p>Кликни на правильную кнопку!</p>
+      <div>
+        <button class="btn" onclick="gift(1)">🎁</button>
+        <button class="btn" onclick="gift(2)">🎁</button>
+        <button class="btn" onclick="gift(3)">🎁</button>
+      </div>
+      <p id="giftMsg"></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 GreenGamesStudio</p>
+  </footer>
+
+  <audio id="music" src="last_christmas.mp3" autoplay loop></audio>
+
+  <script>
+    // Countdown to 1 December
+    function updateCountdown(){
+      const now = new Date();
+      const target = new Date(now.getFullYear(), 11, 1); // December = 11
+      if(now > target){
+        target.setFullYear(target.getFullYear()+1);
+      }
+      const diff = target - now;
+      const days = Math.floor(diff/1000/60/60/24);
+      const hours = Math.floor((diff/1000/60/60)%24);
+      const mins = Math.floor((diff/1000/60)%60);
+      const secs = Math.floor((diff/1000)%60);
+      document.getElementById('countdown').textContent = `До декабря осталось: ${days}д ${hours}ч ${mins}м ${secs}с`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Snow generator
+    function createSnow(){
+      const snow = document.createElement('div');
+      snow.className = 'snowflake';
+      const size = Math.random()*6+4;
+      snow.style.width = snow.style.height = size+'px';
+      snow.style.left = Math.random()*100+'vw';
+      snow.style.animationDuration = (Math.random()*5+5)+'s';
+      document.body.appendChild(snow);
+      setTimeout(()=>snow.remove(),10000);
+    }
+    setInterval(createSnow, 200);
+
+    // Game 1: Snowman clicker
+    let snowmanScore = 0;
+    function clickSnowman(){
+      snowmanScore++;
+      document.getElementById('snowmanScore').textContent = 'Снеговиков: '+snowmanScore;
+    }
+
+    // Game 2: Find gift
+    let secret = Math.floor(Math.random()*3)+1;
+    function gift(num){
+      if(num===secret){
+        document.getElementById('giftMsg').textContent = 'Нашёл подарок! 🎉';
+        secret = Math.floor(Math.random()*3)+1;
+      } else {
+        document.getElementById('giftMsg').textContent = 'Не тут... попробуй ещё!';
+      }
+    }
+  </script>
+</body>
+</html>
