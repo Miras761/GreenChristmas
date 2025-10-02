@@ -10,28 +10,60 @@
       --bg: #06150a;
       --accent: #24d07d;
       --soft: #0c3b21;
+      --glass: rgba(255,255,255,0.03);
     }
     * { box-sizing: border-box; }
     body {
       margin:0;
       font-family: 'Montserrat', sans-serif;
-      background: var(--bg);
+      background: linear-gradient(180deg, #04140a 0%, #071a0f 100%);
       color: #eafff2;
       overflow-x: hidden;
+      -webkit-font-smoothing:antialiased;
     }
+
+    /* Header + animated neon logo */
     header {
       text-align: center;
-      padding: 20px;
-      background: var(--soft);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      padding: 26px 16px;
+      background: linear-gradient(180deg, rgba(10,30,20,0.6), rgba(5,12,8,0.4));
+      box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+      position: relative;
     }
-    header h1 { color: var(--accent); margin:0; }
-    header p { opacity:.8; }
+    .logo {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 10px;
+      box-shadow: 0 8px 40px rgba(36,208,125,0.08), 0 0 18px rgba(36,208,125,0.12) inset;
+      background: linear-gradient(90deg, rgba(36,208,125,0.06), rgba(36,208,125,0.02));
+      transform: translateZ(0);
+      animation: neon 3.6s ease-in-out infinite;
+    }
+    @keyframes neon{
+      0%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12)) saturate(1.0);opacity:0.95}
+      50%{filter:drop-shadow(0 0 18px rgba(36,208,125,0.35)) saturate(1.2);opacity:1}
+      100%{filter:drop-shadow(0 0 6px rgba(36,208,125,0.12)) saturate(1.0);opacity:0.95}
+    }
+    header p { margin:6px 0 0 0; opacity:.85 }
+
+    /* Music control */
+    .music-control{
+      position:absolute; right:18px; top:18px; display:flex; gap:8px; align-items:center;
+    }
+    .music-btn{
+      background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--accent); padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:700;
+      backdrop-filter: blur(4px);
+    }
 
     /* Countdown */
     #countdown {
-      font-size: 1.5rem;
-      margin: 20px 0;
+      font-size: 1.2rem;
+      margin: 14px 0 0 0;
       text-align: center;
       color: var(--accent);
       font-weight: 700;
@@ -49,7 +81,7 @@
       z-index: 1000;
     }
     @keyframes fall {
-      to { transform: translateY(110vh); opacity:0; }
+      to { transform: translateY(110vh) rotate(360deg); opacity:0; }
     }
 
     /* Mini games section */
@@ -58,20 +90,21 @@
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
-      padding: 30px;
+      padding: 28px;
     }
     .game {
-      background: var(--soft);
+      background: linear-gradient(180deg, rgba(12,59,33,0.9), rgba(6,28,18,0.9));
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-      width: 280px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+      width: 300px;
       text-align: center;
+      border:1px solid rgba(36,208,125,0.06);
     }
     .game h3 { color: var(--accent); margin-bottom: 10px; }
     .btn {
       background: var(--accent);
-      color: #000;
+      color: #01210e;
       border: none;
       padding: 10px 16px;
       border-radius: 8px;
@@ -81,18 +114,31 @@
 
     footer {
       text-align: center;
-      padding: 20px;
-      background: var(--soft);
-      color: #ccc;
-      margin-top: 20px;
+      padding: 18px;
+      background: rgba(6,24,12,0.6);
+      color: #cfeee1;
+      margin-top: 18px;
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* small screens */
+    @media (max-width:600px){
+      .logo{font-size:22px;padding:6px 10px}
+      .game{width:100%}
+      .music-control{position:static;margin-top:12px}
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Green Winter Vibe</h1>
-    <p>by GreenGamesStudio</p>
+    <div class="logo">GreenGamesStudio</div>
+    <p>Green Winter Vibe — by Miras</p>
     <div id="countdown">До зимы: ...</div>
+
+    <div class="music-control">
+      <button id="tryPlayBtn" class="music-btn">▶ Включить музыку</button>
+      <button id="muteBtn" class="music-btn">🔈 Выкл звук</button>
+    </div>
   </header>
 
   <section class="games">
@@ -106,29 +152,36 @@
     <div class="game">
       <h3>🎁 Найди подарок</h3>
       <p>Кликни на правильную кнопку!</p>
-      <div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
         <button class="btn" onclick="gift(1)">🎁</button>
         <button class="btn" onclick="gift(2)">🎁</button>
         <button class="btn" onclick="gift(3)">🎁</button>
       </div>
-      <p id="giftMsg"></p>
+      <p id="giftMsg" style="margin-top:12px"></p>
+    </div>
+
+    <div class="game">
+      <h3>❄️ Мини-история</h3>
+      <p>Под окном — мягкий снег, в комнате — зелёный сетап.</p>
+      <p style="opacity:.9">Нажми на кнопку, чтобы добавить тёплое сообщение.</p>
+      <button class="btn" onclick="showMsg()" style="margin-top:8px">Подарить вайб</button>
+      <p id="vibeMsg" style="margin-top:8px;color:var(--accent)"></p>
     </div>
   </section>
 
   <footer>
-    <p>© 2025 GreenGamesStudio</p>
+    <p>© 2025 GreenGamesStudio — сделано Miras</p>
   </footer>
 
-  <audio id="music" src="last_christmas.mp3" autoplay loop></audio>
+  <!-- Audio: file name should match your uploaded file on GitHub (case sensitive) -->
+  <audio id="music" src="Last%20Christmas.mp3" loop preload="auto"></audio>
 
   <script>
     // Countdown to 1 December
     function updateCountdown(){
       const now = new Date();
-      const target = new Date(now.getFullYear(), 11, 1); // December = 11
-      if(now > target){
-        target.setFullYear(target.getFullYear()+1);
-      }
+      const target = new Date(now.getFullYear(), 11, 1); // December 1
+      if(now > target){ target.setFullYear(target.getFullYear()+1); }
       const diff = target - now;
       const days = Math.floor(diff/1000/60/60/24);
       const hours = Math.floor((diff/1000/60/60)%24);
@@ -143,23 +196,23 @@
     function createSnow(){
       const snow = document.createElement('div');
       snow.className = 'snowflake';
-      const size = Math.random()*6+4;
+      const size = Math.random()*8+4;
       snow.style.width = snow.style.height = size+'px';
       snow.style.left = Math.random()*100+'vw';
-      snow.style.animationDuration = (Math.random()*5+5)+'s';
+      snow.style.animationDuration = (Math.random()*7+5)+'s';
+      snow.style.opacity = (Math.random()*0.6+0.4).toFixed(2);
       document.body.appendChild(snow);
-      setTimeout(()=>snow.remove(),10000);
+      setTimeout(()=>snow.remove(), 14000);
     }
-    setInterval(createSnow, 200);
+    setInterval(createSnow, 180);
 
-    // Game 1: Snowman clicker
+    // Games
     let snowmanScore = 0;
     function clickSnowman(){
       snowmanScore++;
       document.getElementById('snowmanScore').textContent = 'Снеговиков: '+snowmanScore;
     }
 
-    // Game 2: Find gift
     let secret = Math.floor(Math.random()*3)+1;
     function gift(num){
       if(num===secret){
@@ -169,6 +222,64 @@
         document.getElementById('giftMsg').textContent = 'Не тут... попробуй ещё!';
       }
     }
+
+    function showMsg(){
+      document.getElementById('vibeMsg').textContent = 'Тёплый зелёный вайб отправлен ✨';
+      setTimeout(()=>document.getElementById('vibeMsg').textContent='',2500);
+    }
+
+    // Music handling: try autoplay, otherwise show play button
+    const audio = document.getElementById('music');
+    const tryBtn = document.getElementById('tryPlayBtn');
+    const muteBtn = document.getElementById('muteBtn');
+
+    // Helper to update mute button text
+    function updateMuteText(){
+      muteBtn.textContent = audio.muted ? '🔈 Выкл звук' : '🔊 Вкл звук';
+    }
+
+    // Attempt to autoplay (may be blocked)
+    function attemptAutoplay(){
+      // Many browsers block autoplay unless muted or user gesture
+      audio.play().then(()=>{
+        // autoplay allowed
+        tryBtn.style.display='none';
+        audio.muted = false;
+        updateMuteText();
+      }).catch(()=>{
+        // autoplay blocked — show button
+        tryBtn.style.display='inline-block';
+        audio.muted = true; // keep muted until user action to avoid glitches
+        updateMuteText();
+      });
+    }
+    // Call on load
+    attemptAutoplay();
+
+    // User clicks to enable music (unmute + play)
+    tryBtn.addEventListener('click', ()=>{
+      audio.muted = false;
+      audio.play().then(()=>{
+        tryBtn.style.display='none';
+        updateMuteText();
+      }).catch(err=>{
+        alert('Не удалось запустить музыку автоматически. Убедись, что файл Last Christmas.mp3 загружен рядом с index.html на GitHub.');
+      });
+    });
+
+    // Toggle mute quickly
+    muteBtn.addEventListener('click', ()=>{
+      audio.muted = !audio.muted;
+      // if audio is paused try to play so mute has effect
+      if(audio.paused){ audio.play().catch(()=>{}); }
+      updateMuteText();
+    });
+
+    // If the audio file 404s, catch and inform user
+    audio.addEventListener('error', ()=>{
+      tryBtn.style.display='inline-block';
+      console.warn('Music file not found at:', audio.src);
+    });
   </script>
 </body>
 </html>
